@@ -4,7 +4,7 @@ import cors, { CorsOptions } from 'cors'
 import mongoose from 'mongoose'
 import fs from 'fs'
 // @ts-ignore
-import Arturverse from '.artifacts/contracts/Arturverse/Arturvers.json'
+import Arturverse from './artifacts/contracts/Arturverse/Arturvers.json'
 import { ethers } from 'ethers'
 import upload from './utils/fileStorage'
 import { File, NFTStorage } from 'nft.storage'
@@ -80,13 +80,7 @@ app.post('/api/certificate', upload.single('file'), async (req: Request, res: Re
      if(!req.file) return res.status(400).send({ error: "Certificate image not valid" })
      const tokenUri = await storeNFT(req.file.path, req.body.name, req.body.description)
     await sendMail(req.body.email, redeemId, tokenId)
-    // await client
-    //  .send({
-    //    from: sender as any,
-    //    to: [{ email:  req.body.email}],
-    //    subject: "ARTURVERSE CERTIFICATE",
-    
-    //  })
+
      
     await contract.mintCertificate(redeemId, tokenUri.url, tokenId)
      res.status(200).json({
