@@ -4,7 +4,7 @@ import cors, { CorsOptions } from 'cors'
 import mongoose from 'mongoose'
 import fs from 'fs'
 // @ts-ignore
-import Arturverse from './dist/artifacts/contracts/Arturverse.sol/Arturvers.json'
+import Arturverse from '.artifacts/contracts/Arturverse.sol/Arturvers.json'
 import { ethers } from 'ethers'
 import upload from './utils/fileStorage'
 import { File, NFTStorage } from 'nft.storage'
