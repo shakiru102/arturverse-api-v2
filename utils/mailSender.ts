@@ -23,8 +23,8 @@ export const sendMail = async (to: string, redeemId: string, tokenId: number) =>
                                     <h1 style="font-size: 18px; margin-top: 20px">CERTIFICATE ID:  <strong>${tokenId}</strong></h1>
                                     <p style="font-size: 14px; margin-top: 20px">Redeem your certificate using: <strong>${redeemId}</strong></p>
                                     <p>View your certificate on this platforms: </p>
-                                    <div><a href="https://arturverse-frontend.vercel.app/nft/${tokenId}">arturverse-frontend.vercel.app/</a></div>
-                                    <div><a href="https://testnets.opensea.io/assets/sepolia/${process.env.CONTRACT_ADDRESS}/${tokenId}">testnets.opensea.io/collection/arturverse-2</a></div>
+                                    <div><a href="https://arturverse-frontend.vercel.app/nft/${tokenId}">arturverse-frontend.vercel.app/nft/${tokenId}</a></div>
+                                    <div><a href="https://testnets.opensea.io/assets/sepolia/${process.env.CONTRACT_ADDRESS}/${tokenId}">testnets.opensea.io/assets/sepolia/${process.env.CONTRACT_ADDRESS}/${tokenId}</a></div>
                                     
                                     <p>Thank you.</p>
                                 </div>
