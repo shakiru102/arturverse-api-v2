@@ -11,9 +11,11 @@ export const sendMail = async (to: string, redeemId: string, tokenId: number) =>
         key: process.env.MAILGUN_APIKEY as string,
     });
 
-    const data = await qr.toDataURL('https://arturverse-frontend.vercel.app/nft/${tokenId}')
+    const data = await qr.toString(`https://arturverse-frontend.vercel.app/nft/${tokenId}`)
+    const dataUrl = await qr.toDataURL(`https://arturverse-frontend.vercel.app/nft/${tokenId}`)
+    fs.writeFileSync('qr.txt', data)
    
-
+  
     const { status, message } =  await mg.messages
                 .create(process.env.MAILGUN_DOMAIN as string, {
                     from: process.env.FROM_MAIL as string,
@@ -32,8 +34,7 @@ export const sendMail = async (to: string, redeemId: string, tokenId: number) =>
                                     <p>View your certificate on this platforms: </p>
                                     <div><a href="https://arturverse-frontend.vercel.app/nft/${tokenId}">arturverse-frontend.vercel.app/nft/${tokenId}</a></div>
                                     <div><a href="https://testnets.opensea.io/assets/sepolia/${process.env.CONTRACT_ADDRESS}/${tokenId}">testnets.opensea.io/assets/sepolia/${process.env.CONTRACT_ADDRESS}/${tokenId}</a></div>
-                                    <img src="${data}" width="500px" height="500px"  alt="qr-code" />
-                                    
+                                    <div><img src="${dataUrl}"  alt="qr-code" /></div>
                                     <p>Thank you.</p>
                                 </div>
                                 <!-- Example of invalid for email html/css, will be detected by Mailtrap: -->
@@ -47,8 +48,8 @@ export const sendMail = async (to: string, redeemId: string, tokenId: number) =>
                             `,
                             attachment: [
                                 {
-                                    filename: "qr-code.png",
-                                     data
+                                    filename: 'qr.txt',
+                                    data: fs.readFileSync('qr.txt')
                                 }
                             ]
                 })
