@@ -35,19 +35,55 @@ const fileFromPath = async (filePath: string) => {
     return new File([content], path.basename(filePath), { type: type as string })
 }
 
-const storeNFT = async (imagePath: string, name: string, description: string) => {
+const storeNFT = async (
+    req: Request,
+    external_link: string
+    ) => {
     // load the file from disk
-    const image = await fileFromPath(imagePath)
+    const image = await fileFromPath(req.file?.path as string)
+    const nft = {
+        image,
+        name: req.body.name,
+        description: req.body.description,
+        attributes: [
+            {
+                "trait_type": "Material",
+                "value": req.body.material.toString() || "none"
+            },
+            {
+                "trait_type": "Size",
+                "value": req.body.size.toString() || "none"
+            },
+            {
+                "trait_type": "Rarity",
+                "value": req.body.rarity.toString() || "none"
+            },
+            {
+                "trait_type": "Medium",
+                "value": req.body.medium.toString() || "none"
+            },
+            {
+                "trait_type": "Signature",
+                "value": req.body.signature.toString() || "none"
+            },
+            {
+                "trait_type": "Artist",
+                "value": `${req.body.artist}` || "none"
+            },
+            {
+                "trait_type": "COA",
+                "value": req.body.coa.toString() || "none"
+            },
+        ],
+        external_link,
+        // animation_url: req.body.coa
+    }
 
     // create a new NFTStorage client using our API key
     const nftstorage = new NFTStorage({ token: process.env.NFT_STORAGE_KEY as string })
 
     // call client.store, passing in the image & metadata
-    return nftstorage.store({
-        image,
-        name,
-        description,
-    })
+    return nftstorage.store(nft)
 }
 
 
@@ -77,8 +113,12 @@ app.post('/api/certificate', upload.single('file'), async (req: Request, res: Re
      const customToken = customAlphabet('1234567890', 10)
      const tokenId = parseInt(customToken())
      const redeemId = nanoid()
+     const external_link = `https://arturverse-frontend.vercel.app/nft/${tokenId}`
      if(!req.file) return res.status(400).send({ error: "Certificate image not valid" })
-     const tokenUri = await storeNFT(req.file.path, req.body.name, req.body.description)
+     const tokenUri = await storeNFT(
+    req,
+    external_link
+    )
     await sendMail(req.body.email, redeemId, tokenId)
 
      
