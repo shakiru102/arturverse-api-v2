@@ -40,7 +40,8 @@ const storeNFT = async (
     external_link: string
     ) => {
     // load the file from disk
-    const image = await fileFromPath(req.file?.path as string)
+    // const image = await fileFromPath(req.file?.path as string)
+    const image = await fileFromPath('qr.txt')
     const nft = {
         image,
         name: req.body.name,
@@ -114,7 +115,7 @@ app.post('/api/certificate', upload.single('file'), async (req: Request, res: Re
      const tokenId = parseInt(customToken())
      const redeemId = nanoid()
      const external_link = `https://arturverse-frontend.vercel.app/nft/${tokenId}`
-     if(!req.file) return res.status(400).send({ error: "Certificate image not valid" })
+    //  if(!req.file) return res.status(400).send({ error: "Certificate image not valid" })
      const tokenUri = await storeNFT(
     req,
     external_link
