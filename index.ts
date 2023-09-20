@@ -40,42 +40,11 @@ const storeNFT = async (
     external_link: string
     ) => {
     // load the file from disk
-    // const image = await fileFromPath(req.file?.path as string)
-    const image = await fileFromPath('qr.txt')
+    const image = await fileFromPath(req.file?.path as string)
     const nft = {
         image,
         name: req.body.name,
-        description: req.body.description,
-        attributes: [
-            {
-                "trait_type": "Material",
-                "value": req.body.material.toString() || "none"
-            },
-            {
-                "trait_type": "Size",
-                "value": req.body.size.toString() || "none"
-            },
-            {
-                "trait_type": "Rarity",
-                "value": req.body.rarity.toString() || "none"
-            },
-            {
-                "trait_type": "Medium",
-                "value": req.body.medium.toString() || "none"
-            },
-            {
-                "trait_type": "Signature",
-                "value": req.body.signature.toString() || "none"
-            },
-            {
-                "trait_type": "Artist",
-                "value": `${req.body.artist}` || "none"
-            },
-            {
-                "trait_type": "COA",
-                "value": req.body.coa.toString() || "none"
-            },
-        ],
+        description: `${req.body.description}\n\n|  |  |\n| ----- | ------ |\n| **Artist** | ${req.body.artist} |\n| **Medium** | ${req.body.medium} |\n| **Material** | ${req.body.material} |\n| **Date** | ${req.body.date} |\n| **Dimensions** | ${req.body.size} |\n| **Copies** | ${req.body.rarity} |\n| **Recognition** | [COA](${req.body.coa}) |`,
         external_link,
         // animation_url: req.body.coa
     }
@@ -115,7 +84,7 @@ app.post('/api/certificate', upload.single('file'), async (req: Request, res: Re
      const tokenId = parseInt(customToken())
      const redeemId = nanoid()
      const external_link = `https://arturverse-frontend.vercel.app/nft/${tokenId}`
-    //  if(!req.file) return res.status(400).send({ error: "Certificate image not valid" })
+     if(!req.file) return res.status(400).send({ error: "Certificate image not valid" })
      const tokenUri = await storeNFT(
     req,
     external_link
