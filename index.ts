@@ -12,7 +12,6 @@ import path from 'path'
 import mime from 'mime'
 import { customAlphabet, nanoid } from 'nanoid'
 import { sendMail } from './utils/mailSender'
-import { generateCor } from './utils/generateCor'
 env.config()
 
 
