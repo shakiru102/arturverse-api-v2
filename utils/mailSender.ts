@@ -2,7 +2,6 @@ import Mailgun from "mailgun.js";
 import formData from 'form-data';
 const mailgun = new Mailgun(formData);
 import qr from 'qrcode'
-import request from "request";
 import fs from 'fs'
 import { generateCor } from "./generateCor";
 import { Request } from "express";

@@ -21,7 +21,7 @@ const corsOptions: CorsOptions = {
 const PORT = process.env.PORT || 4000
 
 const app = express()
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 // @ts-ignore
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -46,7 +46,7 @@ const storeNFT = async (
         image,
         name: req.body.name,
         description: `${req.body.description}\n\n|  |  |\n| ----- | ------ |\n| **Artist** | ${req.body.artist} |\n| **Medium** | ${req.body.medium} |\n| **Material** | ${req.body.material} |\n| **Date** | ${req.body.date} |\n| **Dimensions** | ${req.body.size} |\n| **Copies** | ${req.body.rarity} |\n| **Recognition** | [COA](${req.body.coa}) |`,
-        external_link,
+        external_link
         // animation_url: req.body.coa
     }
 
@@ -63,7 +63,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors(corsOptions))
 
 app.get('/', async(req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'home.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.post('/api/certificate', upload.single('file'), async (req: Request, res: Response) => {
@@ -92,8 +92,8 @@ app.post('/api/certificate', upload.single('file'), async (req: Request, res: Re
     const result = await fetch(`https://nftstorage.link/ipfs/${tokenUri.url.replace('ipfs://','')}`)
     const data = await result.json()
     await sendMail(req.body.email, redeemId, tokenId, req, data.image.replace('ipfs://', 'https://nftstorage.link/ipfs/'))
-    fs.writeFileSync('public/index.html', 'server is running')
-    fs.unlinkSync('coa.pdf')
+    // fs.writeFileSync('public/index.html', 'server is running')
+    // fs.unlinkSync('coa.pdf')
     
     res.status(200).json({
         tokenUri,
