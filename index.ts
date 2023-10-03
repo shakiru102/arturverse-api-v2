@@ -93,7 +93,10 @@ app.post('/api/certificate', upload.single('file'), async (req: Request, res: Re
     const result = await fetch(`https://nftstorage.link/ipfs/${tokenUri.url.replace('ipfs://','')}`)
     const data = await result.json()
     await sendMail(req.body.email, redeemId, tokenId, req, data.image.replace('ipfs://', 'https://nftstorage.link/ipfs/'))
-     res.status(200).json({
+    fs.unlinkSync('public/index.html')
+    fs.unlinkSync('coa.pdf')
+    
+    res.status(200).json({
         tokenUri,
         tokenId,
         redeemId
