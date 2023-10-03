@@ -12,6 +12,7 @@ import path from 'path'
 import mime from 'mime'
 import { customAlphabet, nanoid } from 'nanoid'
 import { sendMail } from './utils/mailSender'
+import { generateCor } from './utils/generateCor'
 env.config()
 
 
@@ -21,6 +22,7 @@ const corsOptions: CorsOptions = {
 const PORT = process.env.PORT || 4000
 
 const app = express()
+app.use(express.static(path.join(__dirname, 'public')));
 // @ts-ignore
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -61,16 +63,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors(corsOptions))
 
-app.get('/', async (req: Request, res: Response) => {
- try {
-    const provider = new ethers.JsonRpcProvider(`https://eth-sepolia.g.alchemy.com/v2/${process.env.API_KEY}`)
-    const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS as string, Arturverse.abi, provider)
-    const getAsset = await contract.owner()
-      res.status(200).json(getAsset)
- } catch (error: any) {
-    res.send({error: error.message})
- }
-})
+app.get('/', async(req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'home.html'));
+});
 
 app.post('/api/certificate', upload.single('file'), async (req: Request, res: Response) => {
    try {
@@ -89,10 +84,15 @@ app.post('/api/certificate', upload.single('file'), async (req: Request, res: Re
     req,
     external_link
     )
-    await sendMail(req.body.email, redeemId, tokenId)
+  // await generateCor()
+
+    
 
      
     await contract.mintCertificate(redeemId, tokenUri.url, tokenId)
+    const result = await fetch(`https://nftstorage.link/ipfs/${tokenUri.url.replace('ipfs://','')}`)
+    const data = await result.json()
+    await sendMail(req.body.email, redeemId, tokenId, req, data.image.replace('ipfs://', 'https://nftstorage.link/ipfs/'))
      res.status(200).json({
         tokenUri,
         tokenId,
@@ -107,4 +107,8 @@ app.post('/api/certificate', upload.single('file'), async (req: Request, res: Re
 })
 
 
-app.listen(PORT, () => console.log('listening on port ', PORT))
+app.listen(PORT, async () => {
+  console.log('listening on port ', PORT)
+})
+
+

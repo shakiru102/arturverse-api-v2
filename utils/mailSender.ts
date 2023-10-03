@@ -4,18 +4,30 @@ const mailgun = new Mailgun(formData);
 import qr from 'qrcode'
 import request from "request";
 import fs from 'fs'
+import { generateCor } from "./generateCor";
+import { Request } from "express";
+import { designCoa } from "./designCoa";
 
-export const sendMail = async (to: string, redeemId: string, tokenId: number) => {
+export const sendMail = async (to: string, redeemId: string, tokenId: number, req: Request, nftImage: string) => {
     const mg = mailgun.client({
         username: 'api',
         key: process.env.MAILGUN_APIKEY as string,
     });
 
-    const data = await qr.toString(`https://arturverse-frontend.vercel.app/nft/${tokenId}`)
+    // const data = await qr.toString(`https://arturverse-frontend.vercel.app/nft/${tokenId}`)
     const dataUrl = await qr.toDataURL(`https://arturverse-frontend.vercel.app/nft/${tokenId}`)
-    fs.writeFileSync('qr.txt', data)
-   
-  
+    // fs.writeFileSync('qr.txt', data)
+    const { 
+        name,
+        artist,
+        medium,
+        material,
+        date,
+        size,
+        rarity
+     } = req.body
+   designCoa(name, artist, size, material, medium, date, rarity, dataUrl, req.file?.path as string, nftImage)
+   await generateCor()
     const { status, message } =  await mg.messages
                 .create(process.env.MAILGUN_DOMAIN as string, {
                     from: process.env.FROM_MAIL as string,
@@ -34,7 +46,7 @@ export const sendMail = async (to: string, redeemId: string, tokenId: number) =>
                                     <p>View your certificate on this platforms: </p>
                                     <div><a href="https://arturverse-frontend.vercel.app/nft/${tokenId}">arturverse-frontend.vercel.app/nft/${tokenId}</a></div>
                                     <div><a href="https://testnets.opensea.io/assets/sepolia/${process.env.CONTRACT_ADDRESS}/${tokenId}">testnets.opensea.io/assets/sepolia/${process.env.CONTRACT_ADDRESS}/${tokenId}</a></div>
-                                    <div><img src="${dataUrl}"  alt="qr-code" /></div>
+                                    ${dataUrl}
                                     <p>Thank you.</p>
                                 </div>
                                 <!-- Example of invalid for email html/css, will be detected by Mailtrap: -->
@@ -48,10 +60,11 @@ export const sendMail = async (to: string, redeemId: string, tokenId: number) =>
                             `,
                             attachment: [
                                 {
-                                    filename: 'qr.txt',
-                                    data: fs.readFileSync('qr.txt')
+                                    filename: 'coa.pdf',
+                                    data: fs.readFileSync('coa.pdf')
                                 }
                             ]
                 })
+                // fs.unlinkSync('coa.pdf')
         return { status, message }
 }

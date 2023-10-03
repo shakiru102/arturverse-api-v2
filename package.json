@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.ts",
+    "dev": "nodemon --ignore public/index.html coa.pdf index.ts",
     "start": "node index.js",
     "build": "tsc -p ."
   },
@@ -13,12 +13,15 @@
   "license": "ISC",
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.3",
+    "@types/gm": "^1.25.2",
     "cloudinary": "^1.40.0",
     "cors": "^2.8.5",
+    "docx": "^8.2.2",
     "dotenv": "^16.3.1",
     "ethers": "^6.7.0",
     "express": "^4.18.2",
     "form-data": "^4.0.0",
+    "gm": "^1.25.0",
     "mailgun.js": "^9.2.1",
     "mailtrap": "^3.2.0",
     "mime": "^3.0.0",
@@ -26,6 +29,8 @@
     "multer": "^1.4.5-lts.1",
     "nanoid": "^3.3.4",
     "nft.storage": "^7.1.1",
+    "officegen": "^0.6.5",
+    "puppeteer": "^21.3.6",
     "qrcode": "^1.5.3",
     "request": "^2.88.2",
     "solidity": "^0.0.1",
