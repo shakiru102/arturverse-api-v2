@@ -16,6 +16,7 @@ export const sendMail = async (to: string, redeemId: string, tokenId: number, re
 
     // const data = await qr.toString(`https://arturverse-frontend.vercel.app/nft/${tokenId}`)
     const dataUrl = await qr.toDataURL(`https://arturverse-frontend.vercel.app/nft/${tokenId}`)
+    const testNetUrl = await qr.toDataURL(`https://testnets.opensea.io/assets/sepolia/${process.env.CONTRACT_ADDRESS}/${tokenId}`)
     // fs.writeFileSync('qr.txt', data)
     const { 
         name,
@@ -26,7 +27,7 @@ export const sendMail = async (to: string, redeemId: string, tokenId: number, re
         size,
         rarity
      } = req.body
-   designCoa(name, artist, size, material, medium, date, rarity, dataUrl, req.file?.path as string, nftImage)
+   designCoa(name, artist, size, material, medium, date, rarity, testNetUrl, req.file?.path as string, nftImage)
    await generateCor()
     const { status, message } =  await mg.messages
                 .create(process.env.MAILGUN_DOMAIN as string, {
@@ -46,7 +47,6 @@ export const sendMail = async (to: string, redeemId: string, tokenId: number, re
                                     <p>View your certificate on this platforms: </p>
                                     <div><a href="https://arturverse-frontend.vercel.app/nft/${tokenId}">arturverse-frontend.vercel.app/nft/${tokenId}</a></div>
                                     <div><a href="https://testnets.opensea.io/assets/sepolia/${process.env.CONTRACT_ADDRESS}/${tokenId}">testnets.opensea.io/assets/sepolia/${process.env.CONTRACT_ADDRESS}/${tokenId}</a></div>
-                                    ${dataUrl}
                                     <p>Thank you.</p>
                                 </div>
                                 <!-- Example of invalid for email html/css, will be detected by Mailtrap: -->
