@@ -35,7 +35,7 @@ export const generateCor = async (
 
 // Downlaod the PDF
   const pdf = await page.pdf({
-    path: 'coa.pdf',
+    path: 'public/coa.pdf',
     margin: { top: '0px', right: '0px', bottom: '0px', left: '0px' },
     printBackground: true,
     format: 'A4',

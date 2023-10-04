@@ -43,7 +43,7 @@ const generateCor = (
     yield page.emulateMediaType('screen');
     // Downlaod the PDF
     const pdf = yield page.pdf({
-        path: 'coa.pdf',
+        path: 'public/coa.pdf',
         margin: { top: '0px', right: '0px', bottom: '0px', left: '0px' },
         printBackground: true,
         format: 'A4',

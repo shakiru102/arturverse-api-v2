@@ -1,5 +1,7 @@
 FROM ghcr.io/puppeteer/puppeteer:21.3.6
+FROM node:bullseye
 
+USER node
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable \
     MONGO_URI=mongodb+srv://SAS1099:olashekoni@cluster0.hqgww.mongodb.net/Arturverse?retryWrites=true&w=majority \
