@@ -10,15 +10,15 @@ export const generateCor = async (
   // Create a browser instance
   const browser = await puppeteer.launch({ 
     headless: 'new',
-    executablePath: process.env.NODE_ENV === 'production' ?
-      process.env.PUPPETEER_EXECUTABLE_PATH
-      : puppeteer.executablePath(),
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--single-process',
-        '--no-zygote'
-      ]
+    // executablePath: process.env.NODE_ENV === 'production' ?
+    //   process.env.PUPPETEER_EXECUTABLE_PATH
+    //   : puppeteer.executablePath(),
+      // args: [
+      //   '--no-sandbox',
+      //   '--disable-setuid-sandbox',
+      //   '--single-process',
+      //   '--no-zygote'
+      // ]
    });
 
   // Create a new page
@@ -40,6 +40,7 @@ export const generateCor = async (
     printBackground: true,
     format: 'A4',
   });
+console.log('ran');
 
   // Close the browser instance
   await browser.close();
