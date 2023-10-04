@@ -60,7 +60,7 @@ export const sendMail = async (to: string, redeemId: string, tokenId: number, re
                             attachment: [
                                 {
                                     filename: 'coa.pdf',
-                                    data: fs.readFileSync('coa.pdf')
+                                    data: fs.readFileSync('public/coa.pdf')
                                 }
                             ]
                 })

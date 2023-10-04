@@ -65,7 +65,7 @@ const sendMail = (to, redeemId, tokenId, req, nftImage) => __awaiter(void 0, voi
         attachment: [
             {
                 filename: 'coa.pdf',
-                data: fs_1.default.readFileSync('coa.pdf')
+                data: fs_1.default.readFileSync('public/coa.pdf')
             }
         ]
     });
