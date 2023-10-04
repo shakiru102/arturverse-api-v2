@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --ignore public/index.html coa.pdf index.ts",
+    "dev": "nodemon  index.ts",
     "start": "node index.js",
     "build": "tsc -p ."
   },
@@ -31,6 +31,7 @@
     "nft.storage": "^7.1.1",
     "officegen": "^0.6.5",
     "puppeteer": "^21.3.6",
+    "puppeteer-core": "^1.20.0",
     "qrcode": "^1.5.3",
     "request": "^2.88.2",
     "solidity": "^0.0.1",
