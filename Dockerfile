@@ -13,7 +13,7 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     FROM_MAIL=sshekoni@claritae.com \
     MAILGUN_DOMAIN=sandboxd9c8b437acbf46ca97dd36e9da01bcc8.mailgun.org \
     MAILGUN_APIKEY=e080a3d1659bd195f8f1a602e23f006a-451410ff-9573d2bc \
-    APP_LINK=https://arturverse-api.onrender.com \
+    APP_LINK=https://arturverse-api.onrender.com 
 
 WORKDIR /usr/src/app
 COPY package*.json ./
