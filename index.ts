@@ -8,6 +8,7 @@ import Arturverse from './artifacts/contracts/Arturverse/Arturvers.json'
 import { ethers } from 'ethers'
 import upload from './utils/fileStorage'
 import { File, NFTStorage } from 'nft.storage'
+
 import path from 'path'
 import mime from 'mime'
 import { customAlphabet, nanoid } from 'nanoid'
