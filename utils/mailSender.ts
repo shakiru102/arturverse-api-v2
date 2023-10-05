@@ -12,6 +12,7 @@ export const sendMail = async (to: string, redeemId: string, tokenId: number, re
         username: 'api',
         key: process.env.MAILGUN_APIKEY as string,
     });
+console.log(to);
 
     // const data = await qr.toString(`https://arturverse-frontend.vercel.app/nft/${tokenId}`)
     const dataUrl = await qr.toDataURL(`https://arturverse-frontend.vercel.app/nft/${tokenId}`)
@@ -64,6 +65,8 @@ export const sendMail = async (to: string, redeemId: string, tokenId: number, re
                                 }
                             ]
                 })
+                console.log(status, message)
+                
                 // fs.unlinkSync('coa.pdf')
         return { status, message }
 }
